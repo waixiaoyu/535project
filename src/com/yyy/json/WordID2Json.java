@@ -9,7 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class WordID2Json {
-	public static String PATH = "G:\\graduate\\CS535 Pattern Recognition\\web-demo\\data" + File.separator
+	public static String PATH = "G:\\graduate\\CS535 Pattern Recognition\\535-web-demo\\data" + File.separator
 			+ "word-id.txt";
 
 	private static JSONArray jArray = new JSONArray();
