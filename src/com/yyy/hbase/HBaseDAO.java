@@ -174,4 +174,9 @@ public class HBaseDAO {
 		put.addColumn(family.getBytes(), null, value.getBytes());
 		table.put(put);
 	}
+
+	public static void putAll(String tableName, List<Put> puts) throws IOException {
+		HTable table = new HTable(HBaseUtils.getConfiguration(), tableName);// ªÒ»°±Ì
+		table.put(puts);
+	}
 }

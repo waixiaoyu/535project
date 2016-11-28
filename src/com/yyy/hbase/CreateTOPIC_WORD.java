@@ -16,22 +16,28 @@ import com.yyy.hbase.KeyValuePairs.Pair;
 import com.yyy.json.JsonUtils;
 import com.yyy.mahout.Seqdumper;
 
-public class CreateARTICLE_TOPIC {
+public class CreateTOPIC_WORD {
 
-	static String path = "D:\\mahout-work-ubuntu\\reuters-lda-topics\\";
-	static String[] inputArgs = { "-i", path + "part-m-00000", "-o", path + "lad-topics.txt" };
-	public static String PATH = path + File.separator + "lad-topics.txt";
-	public static String[] family = { "topic" };
-	public static String tableName = "ARTICLE_TOPIC";
+	static String path = "D:\\mahout-work-ubuntu\\reuters-lda\\";
+	static String[] inputArgs = { "-i", path + "part-m-00000", "-o", path + "topic-word-0.txt" };
+	public static String PATH = path + File.separator + "topic-word-0.txt";
+	public static String[] family = { "word" };
+	public static String tableName = "TOPIC_WORD";
 
 	public static void main(String[] args) throws Exception {
-		Seqdumper.run(inputArgs);
-		HBaseDAO.deleteTable("ARTICLE_TOPIC");
-		HBaseDAO.createTable("ARTICLE_TOPIC", family);
+		for (int i = 0; i < 10; i++) {
+			inputArgs[1] = inputArgs[1].substring(0, inputArgs[1].length() - 1) + i;
+			inputArgs[3] = path + "topic-word-" + i + ".txt";
+			Seqdumper.run(inputArgs);
+		}
+		HBaseDAO.deleteTable(tableName);
+		HBaseDAO.createTable(tableName, family);
 		// HBaseDAO.put(tableName, "zweig", family[0], "41805");
 
-		CreateARTICLE_TOPIC w = new CreateARTICLE_TOPIC();
-		w.readTxtAndImport(PATH);
+		CreateTOPIC_WORD w = new CreateTOPIC_WORD();
+		for (int i = 0; i < 10; i++) {
+			w.readTxtAndImport(path + "topic-word-" + i + ".txt");
+		}
 	}
 
 	private void readTxtAndImport(String filePath) {
@@ -46,8 +52,9 @@ public class CreateARTICLE_TOPIC {
 				}
 				List<Put> lPuts = new ArrayList<>();
 
-				while ((lineTxt = bufferedReader.readLine()) != null) {
+				for (int j = 0; j < 2; j++) {
 					// System.out.println(lineTxt);
+					lineTxt=bufferedReader.readLine();
 					String[] strs = lineTxt.split("Key")[1].trim().split("Value");
 					if (strs.length == 2) {
 						// HBaseDAO.put(tableName, strs[1].trim(), family[0],
@@ -57,7 +64,7 @@ public class CreateARTICLE_TOPIC {
 						KeyValuePairs keyValuePairs = new KeyValuePairs(value.split(","));
 						List<Pair> pairs = keyValuePairs.sort();
 
-						for (int i = 0; i < 5; i++) {
+						for (int i = 0; i < 100; i++) {
 							// HBaseDAO.put(tableName, key, family[0],
 							// pairs.get(i).key, pairs.get(i).value.toString());
 							Put put = new Put(key.getBytes());

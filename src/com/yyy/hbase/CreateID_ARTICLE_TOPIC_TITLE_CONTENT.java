@@ -9,15 +9,15 @@ import java.util.List;
 
 import org.apache.hadoop.hbase.client.Put;
 
-public class CreateID_ARTICLE_TITLE {
+public class CreateID_ARTICLE_TOPIC_TITLE_CONTENT {
 
 	static String path = "D:\\mahout-work-ubuntu\\reuters-out-matrix\\";
 	static String[] inputArgs = { "-i", path + "docIndex", "-o", path + "docIndex.txt" };
 
 	public static String PATH = path + File.separator + "docIndex.txt";
 	public static String[] family = { "article" };
-	public static String[] qualifer = { "alias", "title" };
-	public static String tableName = "ARTICLE_ALIAS_TITLE";
+	public static String[] qualifer = { "alias", "title", "content","topic" };
+	public static String tableName = "ARTICLE_ALIAS_TITLE_CONTENT";
 
 	static String prefixTitleFile = "D:\\mahout-work-ubuntu\\reuters-out";
 
@@ -26,7 +26,7 @@ public class CreateID_ARTICLE_TITLE {
 		HBaseDAO.deleteTable(tableName);
 		HBaseDAO.createTable(tableName, family);
 		//
-		CreateID_ARTICLE_TITLE w = new CreateID_ARTICLE_TITLE();
+		CreateID_ARTICLE_TOPIC_TITLE_CONTENT w = new CreateID_ARTICLE_TOPIC_TITLE_CONTENT();
 		w.readTxtAndImport(PATH);
 
 	}
@@ -51,6 +51,7 @@ public class CreateID_ARTICLE_TITLE {
 					String[] strs = lineTxt.split(":");
 					if (strs.length == 4) {
 						String title = readTitle(prefixTitleFile + strs[3].trim());
+						String content = readContent(prefixTitleFile + strs[3].trim());
 						if (title != null) {
 							System.out.println(strs[3].trim());
 							// HBaseDAO.put(tableName, strs[1].trim(),
@@ -62,6 +63,9 @@ public class CreateID_ARTICLE_TITLE {
 							lPuts.add(put);
 							put = new Put(strs[1].trim().getBytes());
 							put.addColumn(family[0].getBytes(), qualifer[1].getBytes(), title.getBytes());
+							lPuts.add(put);
+							put = new Put(strs[1].trim().getBytes());
+							put.addColumn(family[0].getBytes(), qualifer[2].getBytes(), content.getBytes());
 							lPuts.add(put);
 						}
 					}
@@ -102,4 +106,31 @@ public class CreateID_ARTICLE_TITLE {
 		return null;
 	}
 
+	private static String readContent(String filePath) {
+		try {
+			File file = new File(filePath);
+			if (file.isFile() && file.exists()) {
+				InputStreamReader read = new InputStreamReader(new FileInputStream(file));
+				BufferedReader bufferedReader = new BufferedReader(read);
+				for (int i = 0; i < 4; i++) {
+					bufferedReader.readLine();
+				}
+				String content = "";
+				String lineTxt = "";
+				while ((lineTxt = bufferedReader.readLine()) != null) {
+					content += lineTxt;
+				}
+				read.close();
+				return content;
+			} else {
+				System.out.println("file not exist");
+			}
+		} catch (
+
+		Exception e) {
+			System.out.println("content error");
+			e.printStackTrace();
+		}
+		return null;
+	}
 }
