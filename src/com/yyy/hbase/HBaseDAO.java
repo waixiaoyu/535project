@@ -3,7 +3,11 @@ package com.yyy.hbase;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.NavigableMap;
 
+import org.apache.hadoop.hbase.Cell;
+import org.apache.hadoop.hbase.CellUtil;
 import org.apache.hadoop.hbase.HColumnDescriptor;
 import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.MasterNotRunningException;
@@ -40,11 +44,11 @@ public class HBaseDAO {
 	}
 
 	public static void main(String[] args) throws IOException {
-		// deleteTable("WORD_ID");
-		String[] strColumn = { "id" };
-		// createTable("WORD_ID", strColumn);
-		// put("WORD_ID", "zy", "id", "41806");
-		System.out.println(new String(get("WORD_ID", "zy").getValue("id".getBytes(), null)));
+		Result r = HBaseDAO.get("ARTICLE_TOPIC20", "1");
+		NavigableMap<byte[], byte[]> maps = r.getFamilyMap("topic".getBytes());
+		for (Entry<byte[], byte[]> e : maps.entrySet()) {
+			System.out.println(new String(e.getKey()) + "-" + new String(e.getValue()));
+		}
 	}
 
 	public static void createTable(String tableName, String[] strColumn) {
