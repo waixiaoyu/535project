@@ -16,7 +16,7 @@ import com.yyy.hbase.KeyValuePairs.Pair;
 import com.yyy.json.JsonUtils;
 import com.yyy.mahout.Seqdumper;
 
-public class CreateTOPIC_WORD {
+public class CreateTOPIC_WORD100 {
 
 	static String path = "D:\\mahout-work-ubuntu\\reuters-lda\\";
 	static String[] inputArgs = { "-i", path + "part-m-00000", "-o", path + "topic-word-0.txt" };
@@ -34,7 +34,7 @@ public class CreateTOPIC_WORD {
 		HBaseDAO.createTable(tableName, family);
 		// HBaseDAO.put(tableName, "zweig", family[0], "41805");
 
-		CreateTOPIC_WORD w = new CreateTOPIC_WORD();
+		CreateTOPIC_WORD100 w = new CreateTOPIC_WORD100();
 		for (int i = 0; i < 10; i++) {
 			w.readTxtAndImport(path + "topic-word-" + i + ".txt");
 		}
