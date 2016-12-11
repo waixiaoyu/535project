@@ -112,6 +112,8 @@ public class CreateTOPIC_WORD10_filter {
 						// HBaseDAO.put(tableName, strs[1].trim(), family[0],
 						// strs[3].trim());
 						String key = strs[0].replaceAll(":", "").trim();
+						// complement bits for key
+						key = key.length() < 2 ? "0" + key : key;
 						String value = strs[1].substring(strs[1].indexOf("{") + 1, strs[1].indexOf("}"));
 						KeyValuePairs keyValuePairs = new KeyValuePairs(value.split(","));
 						List<Pair> pairs = keyValuePairs.sort();
