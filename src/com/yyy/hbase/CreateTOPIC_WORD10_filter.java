@@ -22,15 +22,15 @@ import org.apache.hadoop.hbase.client.Result;
 import com.yyy.hbase.KeyValuePairs.Pair;
 import com.yyy.mahout.Seqdumper;
 
-public class CreateTOPIC_WORD100_filter {
+public class CreateTOPIC_WORD10_filter {
 
 	static String path = "D:\\mahout-work-ubuntu\\reuters-lda\\";
 	static String[] inputArgs = { "-i", path + "part-m-00000", "-o", path + "topic-word-0.txt" };
 	public static String PATH = path + File.separator + "topic-word-0.txt";
 	public static String[] family = { "word" };
-	public static String tableName = "TOPIC_WORD";
+	public static String tableName = "TOPIC_WORD5";
 
-	private static final int MAX_WORDS = 100;
+	private static final int MAX_WORDS = 10;
 	/**
 	 * use a hashset to store common words in memory at first, from a txt file
 	 */
@@ -52,7 +52,7 @@ public class CreateTOPIC_WORD100_filter {
 		HBaseDAO.createTable(tableName, family);
 		// HBaseDAO.put(tableName, "zweig", family[0], "41805");
 
-		CreateTOPIC_WORD100_filter w = new CreateTOPIC_WORD100_filter();
+		CreateTOPIC_WORD10_filter w = new CreateTOPIC_WORD10_filter();
 		w.loadCommonWords("commonwords.txt");
 		w.loadIDWordMap("ID_WORD");
 		for (int i = 0; i < 10; i++) {
