@@ -16,5 +16,11 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="H:/ws4j-1.0.1.jar"/>
+	<classpathentry kind="lib" path="mechaglot_lib/Classifier4J-0.6.jar"/>
+	<classpathentry kind="lib" path="mechaglot_lib/multilayerPerceptronCS.jar"/>
+	<classpathentry kind="lib" path="mechaglot_lib/RBFNetwork.jar"/>
+	<classpathentry kind="lib" path="mechaglot_lib/simmetrics_jar_v1_6_2_d07_02_07.jar"/>
+	<classpathentry kind="lib" path="mechaglot_lib/weka.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
