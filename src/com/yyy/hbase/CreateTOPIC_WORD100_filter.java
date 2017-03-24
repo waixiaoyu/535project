@@ -29,7 +29,10 @@ public class CreateTOPIC_WORD100_filter {
 	public static String PATH = path + File.separator + "topic-word-0.txt";
 	public static String[] family = { "word" };
 	public static String tableName = "TOPIC_WORD";
-
+	private static final String STOP_WORDS="stopwords.txt";
+	
+	
+	
 	private static final int MAX_WORDS = 100;
 	/**
 	 * use a hashset to store common words in memory at first, from a txt file
@@ -53,7 +56,7 @@ public class CreateTOPIC_WORD100_filter {
 		// HBaseDAO.put(tableName, "zweig", family[0], "41805");
 
 		CreateTOPIC_WORD100_filter w = new CreateTOPIC_WORD100_filter();
-		w.loadCommonWords("commonwords.txt");
+		w.loadStopWords(STOP_WORDS);
 		w.loadIDWordMap("ID_WORD");
 		for (int i = 0; i < 10; i++) {
 			w.readTxtAndImport(path + "topic-word-" + i + ".txt");
@@ -66,7 +69,7 @@ public class CreateTOPIC_WORD100_filter {
 	 * 
 	 * @throws IOException
 	 */
-	private void loadCommonWords(String fileName) throws IOException {
+	private void loadStopWords(String fileName) throws IOException {
 		BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
 		String str = null;
 		while ((str = bufferedReader.readLine()) != null) {
